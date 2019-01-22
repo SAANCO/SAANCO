@@ -1,0 +1,3 @@
+[submodule "lib/websocket-server"]
+	path = lib/websocket-server
+	url = https://github.com/payden/libwebsock
