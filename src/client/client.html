@@ -12,7 +12,7 @@
 		<div id=darkmode onclick="darkMode()"></div>
 
 		<div id="chat">
-				<div id="messages" onscroll="updateScrollButton()">
+				<div id="messages" onscroll="updateScrollButton()" onmousewheel="window.clearTimeout(window.scrollTimeout)">
 					<div id="scrolldown" onclick="scrollToBottom()"></div>
 				</div>
 				<div class=gradient id="gradient_top"></div>

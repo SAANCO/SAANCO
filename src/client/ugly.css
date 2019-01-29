@@ -10,7 +10,10 @@
 
 .info {
 	color: red;
-	animation: blink 0.2s cubic-bezier(1, 0, 0, 1) infinite;
+    background-color: #33FF00; 
+    width: 100%;
+    padding: 0;
+	animation: blink 1s cubic-bezier(1, 0, 0, 1) infinite;
 }
 
 #messages {
@@ -39,6 +42,14 @@
 		color: yellow;
 		background-color: blue;
 	}
+	49% {
+		color: yellow;
+		background-color: blue;
+	}
+	50% {
+		color: blue;
+		background-color: yellow;
+	}
 	to {
 		color: blue;
 		background-color: yellow;
@@ -46,7 +57,7 @@
 }
 
 #send {
-	animation: send_blink 0.2s cubic-bezier(1, 0, 0, 1) infinite;
+	animation: send_blink 0.3s linear infinite;
 	border-radius: 0;
 	transform: translate(-4%, -2%) scale(1.2, 1.2);
 }
@@ -55,11 +66,23 @@
 	background-color: red;
 }
 
+@keyframes wtf {
+	0% {
+  		background-image: linear-gradient(to bottom right, black, #333, black);
+ 	}
+	33% {
+		background-image: repeating-radial-gradient(black, #333 40%, black 80%);
+	}
+	66% {
+  		background-image: linear-gradient(10deg, black, #333, black, #333);
+	}
+}
+
 body {
-  	background-image: linear-gradient(to bottom right, black, #333);
-  	background-image: repeating-radial-gradient(black, #333 40%);
-  	background-size: 60vh 60vh;
   	background-position: calc(30vw - 30vh) 0;
+  	background-size: 60vh 60vh;
+
+  	animation: wtf linear infinite 8s;
 }
 
 #input {
@@ -70,7 +93,7 @@ body {
 
 @keyframes rainbow_arrow {
 	0% {
-    	border-top-color: #66FF00; 
+    	border-top-color: #33FF00; 
 	}
 	25% {
     	border-top-color: blue; 
@@ -95,4 +118,32 @@ body {
 
 #darkmode {
 	display: none;
+}
+
+@keyframes fancy-fade-in {
+	from {
+		opacity: 0;
+		transform: scale(0, 0) translate(-100%, -100%);
+	}
+	1% {
+		padding: 0;
+	}
+}
+
+::-webkit-scrollbar {
+  	width: 3%;
+}
+
+::-webkit-scrollbar-track {
+	background-image: linear-gradient(red, orange, yellow, green, blue, purple);
+}
+ 
+::-webkit-scrollbar-thumb {
+	border: solid white 0.1vw;
+  	background: gray; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+	border: solid black 0.1vw;
+  	background: white; 
 }
