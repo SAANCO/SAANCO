@@ -119,7 +119,7 @@ function scrollToBottom(instant) {
 
 		chat.scrollTop += speed;
 		//window.setTimeout(new function() { scrollToBottom(false, ignoreButton); }, 1);
-		window.setTimeout(scrollToBottom, 1, false);
+		window.scrollTimeout = window.setTimeout(scrollToBottom, 1, false);
 	}
 
 

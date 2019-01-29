@@ -9,16 +9,8 @@
 	--text-color: #FFFFFF;
 	--body-color: #111;
 	--shadow-color: #00000088;
-	--chat-inner-color: #555555;
+	--chat-inner-color: #222;
 
-}
-
-.info {
-	color: white;
-}
-
-#messages {
-	background-color: #222;
 }
 
 #darkmode::after {
