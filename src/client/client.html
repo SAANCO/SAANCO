@@ -9,7 +9,10 @@
 
 		<div id="chat">
 				<div id="messages"></div>
-				<div id="input"></div>
+				<form onSubmit="sendMessage();return false" autocomplete="off">
+					<input id="input"></input>
+					<input id="send" type="submit" value="Send"></input>
+				</form>
 		</div>
 	
 		<script type="text/javascript" src="https://cdn.rawgit.com/ricmoo/aes-js/e27b99df/index.js"></script>
@@ -19,6 +22,7 @@
 		<script type="text/javascript" src="./../../lib/scrypt-js/thirdparty/setImmediate.js"></script>
 		<script type="text/javascript" src="./../../lib/scrypt-js/thirdparty/unorm.js"></script>
 
+		<script src="encryption.js"></script>
 		<script src="client.js"></script>
 
 	</body>
