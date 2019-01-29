@@ -1,9 +1,12 @@
 [submodule "lib/websocket-server"]
 	path = lib/websocket-server
-	url = https://github.com/payden/libwebsock
+	url = https://github.com/joewalnes/websocketd
 [submodule "lib/websocket-client"]
 	path = lib/websocket-client
-	url = https://github.com/zhaojh329/libuwsc
+	url = https://github.com/warmcat/libwebsockets
 [submodule "lib/scrypt-js"]
 	path = lib/scrypt-js
 	url = https://github.com/ricmoo/scrypt-js
+[submodule "lib/rsa-js"]
+	path = lib/rsa-js
+	url = https://github.com/wwwtyro/cryptico
