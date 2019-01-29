@@ -4,3 +4,9 @@
 [submodule "lib/rsa-js"]
 	path = lib/rsa-js
 	url = https://github.com/wwwtyro/cryptico
+[submodule "websocket-server"]
+	path = lib/websocket-server
+	url = https://github.com/joewalnes/websocketd
+[submodule "websocket-client"]
+	path = lib/websocket-client
+	url = https://github.com/warmcat/libwebsockets
