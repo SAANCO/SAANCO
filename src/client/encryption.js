@@ -130,3 +130,19 @@ function cutToBytes(bytes, textLength) {
 	return newBytes;
 
 }
+
+/*
+	@param{String}	passPhrase - The String used to generate the keys
+	@return{Object} An object containing both keys as 'object.public' and 'object.private'
+*/
+function generateRSAKeys(passPhrase) {
+
+	let keys = {};
+	let bits = 1024;
+
+	keys.private = cryptico.generateRSAKey(passPhrase, bits);
+	keys.public = cryptico.publicKeyString(keys.private);
+
+	return keys;
+
+}

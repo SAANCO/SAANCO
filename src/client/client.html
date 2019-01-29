@@ -2,13 +2,21 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>So nen Chatprogramm</title>
+        <title>Whatsapp 2</title>
         <link rel="stylesheet" href="client.css" />
+        <link rel="stylesheet" href="dark.css" />
+        <link rel="stylesheet" href="ugly.css" disabled />
     </head>
 	<body>
 
+		<div id=darkmode onclick="darkMode()"></div>
+
 		<div id="chat">
-				<div id="messages"></div>
+				<div id="messages" onscroll="updateScrollButton()">
+					<div id="scrolldown" onclick="scrollToBottom()"></div>
+				</div>
+				<div class=gradient id="gradient_top"></div>
+				<div class=gradient id="gradient_bottom"></div>
 				<form onSubmit="sendMessage();return false" autocomplete="off">
 					<input id="input"></input>
 					<input id="send" type="submit" value="Send"></input>
@@ -22,6 +30,9 @@
 		<script type="text/javascript" src="./../../lib/scrypt-js/thirdparty/setImmediate.js"></script>
 		<script type="text/javascript" src="./../../lib/scrypt-js/thirdparty/unorm.js"></script>
 
+		<script type="text/javascript" src="./../../lib/rsa-js/cryptico.js"></script>
+
+		<script src="sentence_gen.js"></script>
 		<script src="encryption.js"></script>
 		<script src="client.js"></script>
 
