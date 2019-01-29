@@ -1,0 +1,28 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+#chat {
+
+	position: absolute;
+
+	width: 50%;
+	height: 96%;
+	left: 25%;
+	top: 2%;
+
+	background-color: #EEEEEE;
+
+}
+
+#input {
+
+	position: absolute;
+	
+	bottom: 0px;
+
+	background-color: #DDDDDD;
+
+}
