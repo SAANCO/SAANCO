@@ -3,15 +3,21 @@
     <head>
         <meta charset="utf-8">
         <title>Whatsapp 2</title>
+
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+		<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+
         <link rel="stylesheet" href="client.css" />
         <link rel="stylesheet" href="dark.css" />
+        <link rel="stylesheet" href="rainbow.css" disabled />
         <link rel="stylesheet" href="ugly.css" disabled />
     </head>
 	<body>
 
-		<div id=darkmode onclick="darkMode()"></div>
-
+		<div id=darkmode onclick="darkMode()" class=round_btn></div>
+		<div id=anon onclick="anon()" class=round_btn></div>
 		<div id="chat">
+				<div id="bar"></div>
 				<div id="messages" onscroll="updateScrollButton()" onmousewheel="window.clearTimeout(window.scrollTimeout)">
 					<div id="scrolldown" onclick="scrollToBottom()"></div>
 				</div>
@@ -32,8 +38,10 @@
 
 		<script type="text/javascript" src="./../../lib/rsa-js/cryptico.js"></script>
 
-		<script src="sentence_gen.js"></script>
+		<script src="random.js"></script>
 		<script src="encryption.js"></script>
+		<script src="storage.js"></script>
+		<script src="websocket.js"></script>
 		<script src="client.js"></script>
 
 	</body>

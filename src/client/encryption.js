@@ -47,39 +47,27 @@ function decryptCBC(msg, key, iv, textLength) {
 }
 
 /*
-	Generates a random string
-
-	@return{String}	the generated string
-*/
-function randomString() {
-
-	let chars = "abcdefghijklmnopqrstuvwxyz";
-	chars += chars.toUpperCase();
-	let other = "!?)(/&%$§=.:,;-_";
-
-	let string = "";
-	for(let i = 0; i < 32; i++) {
-		if(Math.random() < 0.3)
-			string += other.charAt(parseInt(Math.random() * other.length));
-		else
-			string += chars.charAt(parseInt(Math.random() * chars.length));
-	}
-
-	return string;
-
-}
-
-/*
 	Generated a AES key and initial vector from a password
 
 	@param{function}	success -	a function that will be executed when a key is found. parameter: 'key' and 'iv' (see 'encryptCBC')
 */
-function generateAESKey(success) {
+function generateAESKey(success, pass) {
 
 	console.log("Generating AES key");
 
-	let password = new buffer.SlowBuffer(randomString().normalize('NFKC'));
-	let salt = new buffer.SlowBuffer(randomString().normalize('NFKC'));
+	let password = null, salt = null;
+
+	if(pass) {
+
+		password = new buffer.SlowBuffer(pass.normalize('NFKC'));
+		salt = new buffer.SlowBuffer(pass.normalize('NFKC'));
+
+	} else {
+
+		password = new buffer.SlowBuffer(randomString().normalize('NFKC'));
+		salt = new buffer.SlowBuffer(randomString().normalize('NFKC'));
+
+	}
 
 	let cost = 1024, block_size = 8, parallelization = 1;
 	let dkLen = 16 * 2;

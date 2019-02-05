@@ -7,9 +7,11 @@
 	--btn2-hover-color: #666;
 	--msg-color: #EEEEEE;
 	--text-color: #000000;
+	--text2-color: #AAA;
 	--body-color: #FFFFFF;
 	--shadow-color: #00000066;
 	--chat-inner-color: #AAAAAA;
+	--url-color: #4256f4;
 
 }
 
@@ -41,17 +43,31 @@ body {
 
 }
 
+#bar {
+
+	width: 96%;
+	height: 4.2%;
+
+	background-color: var(--chat-color);
+
+	border-radius: 0.5vw 0.5vw 0 0;
+
+	padding: 0;
+	text-align: center;
+	padding-top: 0.8%;
+	font-size: 2.6vh;
+	color: var(--text2-color);
+}
+
 #messages {
 
 	width: 96%;
-	height: 87%;
+	height: 82%;
 
 	background-color: var(--chat-inner-color);
 
 	overflow-y: scroll;
 	overflow-x: hidden;
-
-	border-radius: 0.5vw 0.5vw 0 0;
 
 	padding: 2%;
 }
@@ -133,7 +149,7 @@ input {
 	color: var(--text-color);
 
 	max-width: 60%;
-	min-width: 20%;
+	min-width: 10%;
 	min-height: 3%;
 
 	overflow: hidden;
@@ -179,7 +195,7 @@ input {
 #gradient_top {
 
 	border-radius: 0.5vw 0 0 0;
-	top: 0;
+	top: 5%;
 	position: absolute;
   	background-image: linear-gradient(var(--shadow-color), transparent);
 
@@ -246,14 +262,15 @@ input {
     border-top: 2vw solid var(--btn-hover-color); 
 }
 
-#darkmode {
+.round_btn {
 	text-align: center;
 	font-size: 4vh;
 	padding-top: 1vh;
 
-	position: absolute;
-	right: 1vh;
-	top: 1vh;
+	float: right;
+	position: relative;
+	margin-right: 1vh;
+	margin-top: 1vh;
 	width: 8vh;
 	height: 7vh;
 
@@ -261,8 +278,16 @@ input {
 	border-radius: 100vw;
 }
 
+.round_btn:hover {
+	background-color: var(--btn-hover-color) !important;
+}
+
 #darkmode::after {
 	content: "🌙";
+}
+
+#anon:hover {
+	background-color: var(--btn-hover-color);
 }
 
 body {
@@ -283,4 +308,24 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   	background: #555; 
+}
+
+.timestamp {
+	text-align: right;
+	color: var(--text2-color);
+	font-size: 0.8vw;
+	padding-top: 0.4vw;
+}
+
+.url {
+	text-decoration: none;
+	color: var(--url-color);
+}
+
+.size1 {
+	font-size: 2vw;
+}
+
+.size2 {
+	font-size: 4vw;
 }

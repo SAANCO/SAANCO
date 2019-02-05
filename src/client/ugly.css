@@ -6,6 +6,15 @@
 	from {
 		color: transparent;
 	}
+	49% {
+		color: transparent;
+	}
+	50% {
+		color: red;
+	}
+	99% {
+		color: red;
+	}
 }
 
 .info {
@@ -13,7 +22,7 @@
     background-color: #33FF00; 
     width: 100%;
     padding: 0;
-	animation: blink 1s cubic-bezier(1, 0, 0, 1) infinite;
+	animation: blink 0.5s cubic-bezier(1, 0, 0, 1) infinite;
 }
 
 #messages {
@@ -146,4 +155,8 @@ body {
 ::-webkit-scrollbar-thumb:hover {
 	border: solid black 0.1vw;
   	background: white; 
+}
+
+.size2, .size1 {
+	animation: blink infinite linear 0.5s;
 }
