@@ -11,8 +11,6 @@ window.onload = function() {
 
 	connect();
 
-	scrollToBottom(true);
-
 	let names = ["Heidi", "Franzl", "Shrek"];	
 	let sim = function() {
 		for(let i = 0; i < randomInt(1, 3); i++) { 
@@ -28,6 +26,8 @@ window.onload = function() {
 	displayMessage("🦄", "Test", + new Date());
 
 	loadMessages();
+
+	window.setTimeout(scrollToBottom, 1000, true);
 
 }
 
