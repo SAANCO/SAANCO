@@ -27,6 +27,7 @@ function loadMessages() {
 
 			let protocol = decryptStorage(message2, key, iv);
 			displayMessage(protocol.msg, protocol.username, protocol.timestamp, protocol.anon);
+			scrollToBottom();
 
 		}, window.password);
 
