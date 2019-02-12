@@ -1,14 +1,12 @@
 //
 // Created by anjomro on 05.02.19.
 //
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <limits.h>
-#include <stdint.h>
-#include <string.h>
-#include <netinet/in.h>
-#include <zconf.h>
+
+#ifndef SAANCO_WSSERVER_H
+
+#include "wsserver.h"
+
+#endif
 
 struct fragment{
     char header[12];
@@ -19,37 +17,21 @@ struct fragment{
 
 
 
-static size_t unpack_uint32 (const void *b, uint32_t * val) {
+
+size_t unpack_uint32(const void *b, uint32_t *val) {
     uint32_t v32 = 0;
     memcpy (&v32, b, sizeof (uint32_t));
     *val = ntohl (v32);
     return sizeof (uint32_t);
 }
-size_t pack_uint32(void* buf, uint32_t val) {
+
+size_t pack_uint32(void *buf, uint32_t val) {
     uint32_t v32 = htonl(val);
     memcpy(buf, &v32, sizeof(uint32_t));
     return sizeof(uint32_t);
 }
 
-
-static void send_message(unsigned int to, unsigned int type, const char *msg){
-    char *p = calloc (sizeof(uint32_t) * 3, sizeof(char)), *ptr;
-    const char *fifo = "/tmp/wspipein.fifo";
-    int fd;
-
-    ptr = p;
-    ptr += pack_uint32(ptr, to);
-    ptr += pack_uint32(ptr, type);
-    ptr += pack_uint32(ptr, (uint32_t) strlen(msg));
-
-    fd = open(fifo, O_WRONLY);
-    write(fd, p, sizeof(uint32_t) * 3);
-    write(fd, msg, strlen(msg));
-    close(fd);
-    free (p);
-}
-
-static void read_message (int fd, fd_set set) {
+void read_message(int fd, fd_set set) {
     static struct fragment buffered;
     int bytes = 0;
     uint32_t size = 0, listener = 0, type = 0;
@@ -147,7 +129,30 @@ static void read_message (int fd, fd_set set) {
 
 }
 
-int main (void) {
+void send_message(unsigned int to, unsigned int type, const char *msg) {
+    char *p = calloc (sizeof(uint32_t) * 3, sizeof(char)), *ptr;
+    const char *fifo = "/tmp/wspipein.fifo";
+    int fd;
+
+    ptr = p;
+    ptr += pack_uint32(ptr, to);
+    ptr += pack_uint32(ptr, type);
+    ptr += pack_uint32(ptr, (uint32_t) strlen(msg));
+
+    fd = open(fifo, O_WRONLY);
+    write(fd, p, sizeof(uint32_t) * 3);
+    write(fd, msg, strlen(msg));
+    close(fd);
+    free (p);
+}
+
+
+
+
+
+
+
+int main(void) {
     fd_set set;
     char *fifo = "/tmp/wspipeout.fifo";
     int fd = 0;
