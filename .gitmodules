@@ -4,3 +4,9 @@
 [submodule "lib/rsa-js"]
 	path = lib/rsa-js
 	url = https://github.com/wwwtyro/cryptico
+[submodule "lib/wss-server"]
+	path = lib/wss-server
+	url = https://github.com/allinurl/gwsocket
+[submodule "lib/libws"]
+	path = lib/libws
+	url = https://github.com/JoakimSoderberg/libws.git
