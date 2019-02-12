@@ -1,140 +1,110 @@
 //
-// Created by anjomro on 29.01.19.
+// Created by anjomro on 10.02.19.
 //
-
-#include "wsClient.h"
-
-
-/*
- * lws-minimal-ws-client
- *
- * Copyright (C) 2018 Andy Green <andy@warmcat.com>
- *
- * This file is made available under the Creative Commons CC0 1.0
- * Universal Public Domain Dedication.
- *
- * This demonstrates the a minimal ws client using lws.
- *
- * It connects to https://libwebsockets.org/ and makes a
- * wss connection to the dumb-increment protocol there.  While
- * connected, it prints the numbers it is being sent by
- * dumb-increment protocol.
- */
-
-#include <libwebsockets.h>
+#include <libws.h>
+#include <libws_log.h>
+#include <inttypes.h>
 #include <string.h>
-#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-static int interrupted, rx_seen, test;
-static struct lws *client_wsi;
-
-static int
-callback_dumb_increment(struct lws *wsi, enum lws_callback_reasons reason,
-                        void *user, void *in, size_t len)
+void onmsg(ws_t ws, char *msg, uint64_t len, int binary, void *arg)
 {
-    switch (reason) {
+    int *echo_count = (int *)arg;
 
-        /* because we are protocols[0] ... */
-        case LWS_CALLBACK_CLIENT_CONNECTION_ERROR:
-            lwsl_err("CLIENT_CONNECTION_ERROR: %s\n",
-                     in ? (char *)in : "(null)");
-            client_wsi = NULL;
-            break;
+    printf("Message %d: \"%s\"\n", *echo_count, msg);
+    (*echo_count)--;
 
-        case LWS_CALLBACK_CLIENT_ESTABLISHED:
-            lwsl_user("%s: established\n", __func__);
-            break;
-
-        case LWS_CALLBACK_CLIENT_RECEIVE:
-            lwsl_user("RX: %s\n", (const char *)in);
-            rx_seen++;
-            if (test && rx_seen == 10)
-                interrupted = 1;
-            break;
-
-        case LWS_CALLBACK_CLIENT_CLOSED:
-            client_wsi = NULL;
-            break;
-
-        default:
-            break;
+    {
+        char *send_msg = strdup(((*echo_count % 2) == 0) ? "Hello" : "World");
+        ws_send_msg(ws, send_msg);
+        free(send_msg);
     }
 
-    return lws_callback_http_dummy(wsi, reason, user, in, len);
+    if (*echo_count == 0)
+    {
+        printf("Got last echo\n");
+        ws_close(ws);
+    }
 }
 
-static const struct lws_protocols protocols[] = {
+void onclose(ws_t ws, ws_close_status_t status,
+             const char *reason, size_t reason_len, void *arg)
+{
+    printf("Closing %u\n", (uint16_t)status);
+    ws_base_quit(ws_get_base(ws), 1);
+}
+
+void onconnect(ws_t ws, void *arg)
+{
+    char *msg = strdup("hello");
+    printf("Connected!\n");
+    ws_send_msg(ws, msg);
+    free(msg);
+}
+
+int main(int argc, char **argv)
+{
+    int ret = 0;
+    int i;
+    ws_base_t base = NULL;
+    ws_t ws = NULL;
+    int echo_count = 5;
+    int ssl = 0;
+    char *server = "localhost";
+
+    for (i = 1; i < argc; i++)
+    {
+        if (!strcmp(argv[i], "--ssl"))
         {
-                "dumb-increment-protocol",
-                callback_dumb_increment,
-                      0,
-                         0,
-        },
-        { NULL, NULL, 0, 0 }
-};
-
-static void
-sigint_handler(int sig)
-{
-    interrupted = 1;
-}
-
-int main(int argc, const char **argv)
-{
-    struct lws_context_creation_info info;
-    struct lws_client_connect_info i;
-    struct lws_context *context;
-    const char *p;
-    int n = 0, logs = LLL_USER | LLL_ERR | LLL_WARN | LLL_NOTICE
-    /* for LLL_ verbosity above NOTICE to be built into lws, lws
-     * must have been configured with -DCMAKE_BUILD_TYPE=DEBUG
-     * instead of =RELEASE */
-    /* | LLL_INFO */ /* | LLL_PARSER */ /* | LLL_HEADER */
-    /* | LLL_EXT */ /* | LLL_CLIENT */ /* | LLL_LATENCY */
-    /* | LLL_DEBUG */;
-
-    signal(SIGINT, sigint_handler);
-    if ((p = lws_cmdline_option(argc, argv, "-d")))
-        logs = atoi(p);
-
-    test = !!lws_cmdline_option(argc, argv, "-t");
-
-    lws_set_log_level(logs, NULL);
-    lwsl_user("LWS minimal ws client rx [-d <logs>] [--h2] [-t (test)]\n");
-
-    memset(&info, 0, sizeof info); /* otherwise uninitialized garbage */
-    info.options = LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
-    info.port = CONTEXT_PORT_NO_LISTEN; /* we do not run any server */
-    info.protocols = protocols;
-
-    context = lws_create_context(&info);
-    if (!context) {
-        lwsl_err("lws init failed\n");
-        return 1;
+            ssl = 1;
+        }
+        else
+        {
+            server = argv[i];
+        }
     }
 
-    memset(&i, 0, sizeof i); /* otherwise uninitialized garbage */
-    i.context = context;
-    i.port = 443;
-    i.address = "libwebsockets.org";
-    i.path = "/";
-    i.host = i.address;
-    i.origin = i.address;
-    i.ssl_connection = LCCSCF_USE_SSL;
-    i.protocol = protocols[0].name; /* "dumb-increment-protocol" */
-    i.pwsi = &client_wsi;
+    ws_set_log_cb(ws_default_log_cb);
+    ws_set_log_level(-1);
 
-    if (lws_cmdline_option(argc, argv, "--h2"))
-        i.alpn = "h2";
+    printf("Echo client\n\n");
 
-    lws_client_connect_via_info(&i);
+    if (ws_global_init(&base))
+    {
+        fprintf(stderr, "Failed to init global state.\n");
+        return -1;
+    }
 
-    while (n >= 0 && client_wsi && !interrupted)
-        n = lws_service(context, 1000);
+    if (ws_init(&ws, base))
+    {
+        fprintf(stderr, "Failed to init websocket state.\n");
+        ret = -1;
+        goto fail;
+    }
 
-    lws_context_destroy(context);
+    ws_set_onmsg_cb(ws, onmsg, &echo_count);
+    ws_set_onconnect_cb(ws, onconnect, NULL);
+    ws_set_onclose_cb(ws, onclose, NULL);
 
-    lwsl_user("Completed %s\n", rx_seen > 10 ? "OK" : "Failed");
+    if (ssl)
+    {
+        ws_set_ssl_state(ws, LIBWS_SSL_SELFSIGNED);
+    }
 
-    return rx_seen > 10;
+    printf("Connect to server %s\n", server);
+
+    if (ws_connect(ws, server, 9500, ""))
+    {
+        ret = -1;
+        goto fail;
+    }
+
+    ws_base_service_blocking(base);
+
+    fail:
+    ws_destroy(&ws);
+    ws_global_destroy(&base);
+    printf("Bye bye!\n");
+    return ret;
 }
