@@ -7,7 +7,7 @@
 #include <string.h>
 #include <jansson.h>
 
-
+char pubKeys[4096][2][256];
 
 void gotMsg(int fromID, char msg[4096]){
     json_t *parsing, *type, *from, *to;
@@ -49,6 +49,10 @@ void gotMsg(int fromID, char msg[4096]){
             send_message((
             unsigned int) json_integer_value(to), 1, msg);
             break;
+        case 2:
+            //new user
+            json_t *username, *pubKey;
+
     }
 
 }
