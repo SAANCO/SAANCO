@@ -5,6 +5,6 @@
 #include "main.h"
 #include "entry.h"
 
-void main(){
+void cmain(){
 
 }
