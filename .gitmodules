@@ -10,3 +10,6 @@
 [submodule "websocket-client"]
 	path = lib/websocket-client
 	url = https://github.com/warmcat/libwebsockets
+[submodule "src/client/libwsclient"]
+	path = src/client/libwsclient
+	url = https://github.com/payden/libwsclient
