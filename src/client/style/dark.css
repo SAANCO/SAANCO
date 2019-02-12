@@ -1,0 +1,20 @@
+:root {
+
+	--chat-color: #333;
+	--btn-color: #555;
+	--btn2-color: #777;
+	--btn-hover-color: #999;
+	--btn2-hover-color: #999;
+	--msg-color: #444;
+	--text-color: #FFFFFF;
+	--text2-color: #888;
+	--body-color: #111;
+	--shadow-color: #00000088;
+	--chat-inner-color: #222;
+	--url-color: #5ebef9;
+
+}
+
+#darkmode::after {
+	content: "☀️";
+}

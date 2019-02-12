@@ -7,15 +7,29 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 		<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 
-        <link rel="stylesheet" href="client.css" />
-        <link rel="stylesheet" href="dark.css" />
-        <link rel="stylesheet" href="rainbow.css" disabled />
-        <link rel="stylesheet" href="ugly.css" disabled />
+        <link rel="stylesheet" href="style/client.css" />
+        <link rel="stylesheet" href="style/dark.css" />
+        <link rel="stylesheet" href="style/rainbow.css" disabled />
+        <link rel="stylesheet" href="style/ugly.css" disabled />
+	
+		<script type="text/javascript" src="https://cdn.rawgit.com/ricmoo/aes-js/e27b99df/index.js"></script>
+
+		<script type="text/javascript" src="./../../lib/scrypt-js/scrypt.js"></script>
+		<script type="text/javascript" src="./../../lib/scrypt-js/thirdparty/buffer.js"></script>
+		<script type="text/javascript" src="./../../lib/scrypt-js/thirdparty/setImmediate.js"></script>
+		<script type="text/javascript" src="./../../lib/scrypt-js/thirdparty/unorm.js"></script>
+
+		<script type="text/javascript" src="./../../lib/rsa-js/cryptico.js"></script>
+
+		<script src="js/random.js"></script>
+		<script src="js/encryption.js"></script>
+		<script src="js/storage.js"></script>
+		<script src="js/websocket.js"></script>
+		<script src="js/client.js"></script>
     </head>
 	<body>
 
 		<div id=darkmode onclick="darkMode()" class=round_btn></div>
-		<div id=anon onclick="anon()" class=round_btn></div>
 		<div id="chat">
 				<div id="bar"></div>
 				<div id="messages" onscroll="updateScrollButton()" onmousewheel="window.clearTimeout(window.scrollTimeout)">
@@ -28,21 +42,6 @@
 					<input id="send" type="submit" value="Send"></input>
 				</form>
 		</div>
-	
-		<script type="text/javascript" src="https://cdn.rawgit.com/ricmoo/aes-js/e27b99df/index.js"></script>
-
-		<script type="text/javascript" src="./../../lib/scrypt-js/scrypt.js"></script>
-		<script type="text/javascript" src="./../../lib/scrypt-js/thirdparty/buffer.js"></script>
-		<script type="text/javascript" src="./../../lib/scrypt-js/thirdparty/setImmediate.js"></script>
-		<script type="text/javascript" src="./../../lib/scrypt-js/thirdparty/unorm.js"></script>
-
-		<script type="text/javascript" src="./../../lib/rsa-js/cryptico.js"></script>
-
-		<script src="random.js"></script>
-		<script src="encryption.js"></script>
-		<script src="storage.js"></script>
-		<script src="websocket.js"></script>
-		<script src="client.js"></script>
 
 	</body>
 </html>
