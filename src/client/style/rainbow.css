@@ -1,0 +1,61 @@
+:root {
+
+	--chat-color: #333;
+	--btn-color: #555;
+	--btn2-color: #777;
+	--btn-hover-color: #999;
+	--btn2-hover-color: #999;
+	--msg-color: #444;
+	--text-color: #FFFFFF;
+	--body-color: #111;
+	--shadow-color: #00000088;
+	--chat-inner-color: #222;
+
+}
+
+.bubble {
+	background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+	animation: 
+	 linear 10s infinite;
+}
+
+#messages {
+	background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+	animation: rainbow linear 10s infinite;
+}
+
+::-webkit-scrollbar-track {
+}
+
+#darkmode {
+	display: none;
+}
+
+/*
+@keyframes rainbow {
+	14.28% {
+		background-color: green; 
+	}
+	25% {
+    	background-color: blue; 
+	}
+	40% {
+    	background-color: purple; 
+	}
+	66.66% {
+    	background-color: red; 
+	}
+	80% {
+    	background-color: orange; 
+	}
+	% {
+    	background-color: yellow; 
+	}
+}
+*/
+
+@keyframes rainbow { 
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
