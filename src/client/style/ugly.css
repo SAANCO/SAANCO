@@ -1,0 +1,162 @@
+* {	
+	font-family: "Comic Sans MS", "Comic Sans";
+}
+
+@keyframes blink {
+	from {
+		color: transparent;
+	}
+	49% {
+		color: transparent;
+	}
+	50% {
+		color: red;
+	}
+	99% {
+		color: red;
+	}
+}
+
+.info {
+	color: red;
+    background-color: #33FF00; 
+    width: 100%;
+    padding: 0;
+	animation: blink 0.5s cubic-bezier(1, 0, 0, 1) infinite;
+}
+
+#messages {
+	background-color: black;
+}
+
+.bubble {
+
+	background-color: #DDFF00;
+	color: #F0F;
+	border-radius: 100%;
+	border: dashed blue 0.1vw;
+	overflow: visible;
+	animation: fancy-fade-in 3s cubic-bezier(0.9, 0, 0.7, 1);
+
+}
+
+.right > .bubble {
+
+	border: double blue 0.2vw;
+
+}
+
+@keyframes send_blink {
+	from {
+		color: yellow;
+		background-color: blue;
+	}
+	49% {
+		color: yellow;
+		background-color: blue;
+	}
+	50% {
+		color: blue;
+		background-color: yellow;
+	}
+	to {
+		color: blue;
+		background-color: yellow;
+	}
+}
+
+#send {
+	animation: send_blink 0.3s linear infinite;
+	border-radius: 0;
+	transform: translate(-4%, -2%) scale(1.2, 1.2);
+}
+
+#chat {
+	background-color: red;
+}
+
+@keyframes wtf {
+	0% {
+  		background-image: linear-gradient(to bottom right, black, #333, black);
+ 	}
+	33% {
+		background-image: repeating-radial-gradient(black, #333 40%, black 80%);
+	}
+	66% {
+  		background-image: linear-gradient(10deg, black, #333, black, #333);
+	}
+}
+
+body {
+  	background-position: calc(30vw - 30vh) 0;
+  	background-size: 60vh 60vh;
+
+  	animation: wtf linear infinite 8s;
+}
+
+#input {
+	border-radius: 0;
+	background-color: black;
+	color: yellow;
+}
+
+@keyframes rainbow_arrow {
+	0% {
+    	border-top-color: #33FF00; 
+	}
+	25% {
+    	border-top-color: blue; 
+	}
+	50% {
+    	border-top-color: red; 
+	}
+	75% {
+    	border-top-color: yellow; 
+	}
+}
+
+#scrolldown { 
+	background-color: transparent;
+	border-radius: 0;
+    width: 0; 
+    height: 0;
+    border: 1.2vw solid transparent; 
+    border-top: 2vw solid #66FF00; 
+    animation: rainbow_arrow 1s linear infinite;
+}
+
+#darkmode {
+	display: none;
+}
+
+@keyframes fancy-fade-in {
+	from {
+		opacity: 0;
+		transform: scale(0, 0) translate(-100%, -100%);
+	}
+	1% {
+		padding: 0;
+	}
+}
+
+::-webkit-scrollbar {
+  	width: 3%;
+}
+
+::-webkit-scrollbar-track {
+	background-image: linear-gradient(red, orange, yellow, green, blue, purple);
+}
+ 
+::-webkit-scrollbar-thumb {
+	border: solid white 0.1vw;
+  	background: gray; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+	border: solid black 0.1vw;
+  	background: white; 
+}
+
+.size2, .size1 {
+	animation: blink infinite linear 0.5s;
+}
