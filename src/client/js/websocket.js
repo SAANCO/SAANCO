@@ -1,6 +1,5 @@
 SERVER_IP = "ws://echo.websocket.org";
 let connection;
-let anonID = randomString();
 
 /*
 	Called on program startup by 'client.js'
@@ -41,9 +40,6 @@ function connect() {
 */
 function sendProtocol(msg, timestamp) {
 
-	// Not used
-	let anon = false
-
 	if(!connection)
 		return;
 
@@ -55,9 +51,8 @@ function sendProtocol(msg, timestamp) {
 		let encryptedKey = cryptico.encrypt(keyToString(key, iv), receiverKey).cipher;
 
 		let protocol = {};
-		protocol.username = anon ? anonID : window.username;
+		protocol.username = window.username;
 		protocol.timestamp = timestamp;
-		protocol.anon = anon;
 
 		protocol.msg = msg;
 		saveMessage(JSON.parse(JSON.stringify(protocol)));
