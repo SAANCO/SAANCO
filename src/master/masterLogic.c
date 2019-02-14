@@ -74,7 +74,7 @@ void gotMsg(int fromID, char *msg) {
                 json_decref(parsing);
                 return;
             }
-            pubKey = json_object_get(parsing, "publicKey");
+            pubKey = json_object_get(parsing, "pubkey");
             if (!json_is_string(pubKey)) {
                 fprintf(stderr, "error: pubKey is no str\n");
                 json_decref(parsing);
