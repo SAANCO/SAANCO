@@ -47,9 +47,9 @@ void gotMsg(int fromID, char *msg) {
             break;
         case 1:
             //normal message
-            to = json_object_get(parsing, "to");
+            to = json_object_get(parsing, "receiver");
             if (!json_is_string(to)) {
-                fprintf(stderr, "error: to is no str\n");
+                fprintf(stderr, "error: receiver is no str\n");
                 json_decref(parsing);
                 return;
             }
