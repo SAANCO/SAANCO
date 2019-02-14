@@ -1,0 +1,47 @@
+[ "$UID" -eq 0 ] || exec sudo "$0" "$@"
+
+echo "Installer script for SAANCO Host with all dependencies.\n"
+echo "Please install (if not already installed) Lua 5.1 + developer headers!\n"
+
+mkdir tmp
+cd tmp
+
+# Install gwsocket
+
+wget http://tar.gwsocket.io/gwsocket-0.3.tar.gz
+tar -xzvf gwsocket-0.3.tar.gz
+cd gwsocket-0.3/
+./configure
+make
+sudo make install
+
+# Install Jansson
+
+wget http://www.digip.org/jansson/releases/jansson-2.12.tar.gz
+tar -xzvf jansson-2.12.tar.gz
+cd jansson-2.12/
+./configure
+make
+sudo make install
+
+
+# Install LuaHashMap
+
+wget https://bitbucket.org/ewing/luahashmap/get/0c720094c6f0.zip
+mkdir luahashmap
+cd luahashmap
+tar -xzvf ewing-luahashmap-0c720094c6f0.zip
+cmake .
+make
+sudo make install
+cd ..
+
+
+cd ..
+
+# Compile SAANCO Host
+
+mkdir build
+cd build
+cmake ..
+make
