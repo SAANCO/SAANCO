@@ -21,7 +21,7 @@ function saveMessage(protocol) {
 	Loads all message from the localStorage and displays them
 	Called on startup by 'client.js'
 */
-function loadMessages() {
+function loadMessages(username) {
 
 	//localStorage.clear();
 
@@ -33,12 +33,19 @@ function loadMessages() {
 		generateAESKey(function(key, iv) {
 
 			let protocol = decryptStorage(message2, key, iv);
-			displayMessage(protocol.msg, protocol.username, protocol.timestamp, protocol.anon);
-			scrollToBottom();
+
+			if(!username || username == protocol.username || username == protocol.receiver) {
+
+				displayMessage(protocol.msg, protocol.username, protocol.timestamp, protocol.anon);
+				scrollToBottom();
+			}
 
 		}, window.password);
 
 	}
+
+	window.lastUser = null;
+	window.lastTimeStamp = null;
 
 }
 

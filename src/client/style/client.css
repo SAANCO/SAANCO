@@ -44,7 +44,7 @@ body {
 
 }
 
-#bar, #username_info {
+#bar, #username_info, #receiver_info, #receiver_info_0 {
 
 	position: absolute;
 
@@ -62,11 +62,23 @@ body {
 	color: var(--text2-color);
 }
 
-#username_info {
+#username_info, #receiver_info, #receiver_info_0 {
 	background-color: transparent;
 	text-align: left;
 	padding-left: 2%;
+	padding-right: 2%;
+	width: 96%;
 	font-style: italic;
+}
+
+#receiver_info {
+	padding-top: 0.2%;
+	width: 91%;
+	left: 5%;
+}
+
+#username_info {
+	text-align: right;
 }
 
 #messages {

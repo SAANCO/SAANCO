@@ -1,4 +1,5 @@
 SERVER_IP = "ws://localhost:8080";
+SERVER_IP = "wss://de0.win:4444";
 let connection;
 
 /*
@@ -13,6 +14,13 @@ function connect() {
 		console.log("Connection established");
 		document.getElementById("bar").innerText = "You are online";
 		window.isOnline = true;
+
+		let login = {};
+		login.type = 2;
+		login.pubkey = window.rsaKeys.public;
+		login.username = window.username;
+
+		connection.send(JSON.stringify(login));
 
 	}
 
@@ -51,6 +59,7 @@ function sendProtocol(msg, timestamp) {
 		let encryptedKey = cryptico.encrypt(keyToString(key, iv), receiverKey).cipher;
 
 		let protocol = {};
+		protocol.receiver = window.receiver;
 		protocol.username = window.username;
 		protocol.timestamp = timestamp;
 
@@ -60,6 +69,7 @@ function sendProtocol(msg, timestamp) {
 		protocol.textlength = enc.textLength;
 		protocol.key = encryptedKey;
 		protocol.msg = enc.msg;
+		protocol.type = 1;
 
 		connection.send(JSON.stringify(protocol));
 
