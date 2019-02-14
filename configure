@@ -11,6 +11,7 @@ cd tmp
 wget http://tar.gwsocket.io/gwsocket-0.3.tar.gz
 tar -xzvf gwsocket-0.3.tar.gz
 cd gwsocket-0.3/
+autoreconf -fiv --with-openssl
 ./configure
 make
 sudo make install
