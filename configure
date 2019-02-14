@@ -30,9 +30,8 @@ cd ..
 # Install LuaHashMap
 
 wget https://bitbucket.org/ewing/luahashmap/get/0c720094c6f0.zip
-mkdir luahashmap
-cd luahashmap
 unzip 0c720094c6f0.zip
+cd ewing-luahashmap-0c720094c6f0
 cmake .
 make
 sudo make install
