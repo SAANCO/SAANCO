@@ -32,6 +32,7 @@
 		<div id=darkmode onclick="darkMode()" class=round_btn></div>
 		<div id="chat">
 				<div id="bar"></div>
+				<div id="username_info"></div>
 				<div id="messages" onscroll="updateScrollButton()" onmousewheel="window.clearTimeout(window.scrollTimeout)">
 					<div id="scrolldown" onclick="scrollToBottom()"></div>
 				</div>
@@ -42,6 +43,11 @@
 					<input id="send" type="submit" value="Send"></input>
 				</form>
 		</div>
+		<form id=login onSubmit="login();return false">
+			<input id="username"></input>
+			<input id="password" type="password"></input>
+			<input id="login_btn" type="submit" value="login"></input>
+		</form>
 
 	</body>
 </html>

@@ -30,6 +30,7 @@ body {
 
 #chat {
 
+	display: none; 
 	position: absolute;
 
 	width: 50%;
@@ -43,9 +44,11 @@ body {
 
 }
 
-#bar {
+#bar, #username_info {
 
-	width: 96%;
+	position: absolute;
+
+	width: 100%;
 	height: 4.2%;
 
 	background-color: var(--chat-color);
@@ -59,7 +62,16 @@ body {
 	color: var(--text2-color);
 }
 
+#username_info {
+	background-color: transparent;
+	text-align: left;
+	padding-left: 2%;
+	font-style: italic;
+}
+
 #messages {
+
+	margin-top: 4.2%;
 
 	width: 96%;
 	height: 82%;
@@ -72,11 +84,14 @@ body {
 	padding: 2%;
 }
 
-input {	
-	font-size: 1vw;
-    background-color: transparent;
+input {
     border: 0px solid;
     outline: none;
+}
+
+#input, #send {	
+	font-size: 1vw;
+    background-color: transparent;
     padding: 0px;
     padding-left: 2%;
 }
@@ -328,4 +343,48 @@ body {
 
 .size2 {
 	font-size: 4vw;
+}
+
+#login {
+
+	position: absolute;
+
+	background-color: var(--chat-color);
+	width: 40vw;
+	height: auto;
+
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+
+	border-radius: 1vw;
+
+}
+
+#password, #username, #login_btn {
+
+	background-color: var(--btn-color);
+	width: 38vw;
+	height: calc(12vh - 1.5vw);
+
+	margin: 0.5vw;
+
+	border-radius: 1vw;
+	font-size: 2vw;
+
+	padding-left: 1vw;
+
+}
+
+#login_btn {
+	padding: 0;
+	height: 5vh;
+	width: 39vw;
+	font-size: 2vw;
+
+}
+
+#username:disabled {
+	background-color: var(--msg-color);
+	color: var(--btn2-color);
 }
