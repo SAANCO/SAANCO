@@ -1,4 +1,4 @@
-SERVER_IP = "ws://echo.websocket.org";
+SERVER_IP = "ws://localhost:8080";
 let connection;
 
 /*
