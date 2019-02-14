@@ -125,6 +125,8 @@ void read_message(int fd, fd_set set) {
     }
     if (type == 8) {
         hasDisconnected(listener);
+    } else if (type == 1) {
+        gotMsg(listener, buf);
     }
     printf ("client: %d, type: %d, len: %d, msg: %s\n", listener, type, size, buf);
     //send_message(listener, 0x01, buf);
