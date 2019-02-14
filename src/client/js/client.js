@@ -17,6 +17,9 @@ window.onload = function() {
 	if(window.username) {
 		document.getElementById("username").value = window.username;
 		document.getElementById("username").disabled = true;
+		document.getElementById("password").focus();
+	} else {
+		document.getElementById("username").focus();
 	}
 
 }
@@ -36,7 +39,28 @@ function login() {
 
 }
 
+function changeReceiver() {
+	let messages = document.getElementById("messages");
+	window.receiver = document.getElementById("receiver_info").value;
+
+	for(let bubble of document.getElementsByClassName("message"))
+		bubble.parentNode.removeChild(bubble);
+
+	loadMessages(window.receiver);
+
+	window.setTimeout(scrollToBottom, 1000, true);
+	window.setTimeout(function() {
+		
+		if(window.displayed_messages == 0)
+			displayMessage("Welcome to " + document.title, "A helpful hand", + new Date());
+		
+
+	}, 1000);
+}
+
 function loadChat() {
+
+	window.receiver = window.username;
 
 	window.rsaKeys = generateRSAKeys(window.password);
 	localStorage.setItem("pubkey", rsaKeys.public);
@@ -45,25 +69,12 @@ function loadChat() {
 
 	document.getElementById("login").style.display = "none";
 	document.getElementById("chat").style.display = "block";
-	document.getElementById("username_info").innerText = username;
+	document.getElementById("username_info").innerText = "From: " + username;
+	document.getElementById("receiver_info").value = "";
 	
 	let msg = document.getElementById("input").focus();
 
 	connect();
-
-	/*
-	let names = ["Heidi", "Franzl", "Shrek"];	
-	let sim = function() {
-		for(let i = 0; i < randomInt(1, 3); i++) { 
-			let min = randomInt(1, 3);
-			let max = min + randomInt(0, 2);
-			displayMessage(someSentences(min, max), names[randomInt(0, names.length-1)], + new Date());
-		}
-		window.setTimeout(sim, 1000*5*randomInt(1, 20));
-	}
-	*/
-
-	loadMessages();
 
 	window.setTimeout(scrollToBottom, 1000, true);
 	window.setTimeout(function() {
