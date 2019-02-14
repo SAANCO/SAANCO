@@ -3,6 +3,7 @@
 anonymous = false;
 displayed_messages = 0;
 rsaKeys = {};
+receiverKey = null;
 
 let maxDis = 200;
 
@@ -43,6 +44,9 @@ function changeReceiver() {
 	let messages = document.getElementById("messages");
 	window.receiver = document.getElementById("receiver_info").value;
 
+	queryKey(window.receiver);
+
+/*
 	for(let bubble of document.getElementsByClassName("message"))
 		bubble.parentNode.removeChild(bubble);
 
@@ -56,6 +60,7 @@ function changeReceiver() {
 		
 
 	}, 1000);
+	*/
 }
 
 function loadChat() {
@@ -92,7 +97,7 @@ function loadChat() {
 	@param{String} text - the message text (obviously)
 	@param{String} byUser - the username of the sender
 */
-function displayMessage(text, byUser, timestamp, anon) {
+function displayMessage(text, byUser, timestamp, anon, italic) {
 	displayed_messages++;
 
 	//	Checks if the last message was sent by the same user
@@ -118,8 +123,14 @@ function displayMessage(text, byUser, timestamp, anon) {
 	else
 		info.innerText = (byUser == username ? "You" : byUser) + ":";
 
-	for(let node of parseRawText(text))
+	for(let node of parseRawText(text)) {
+		if(italic) node.className += " italic";
 		bubble.appendChild(node);
+	}for(let style of document.querySelectorAll('[rel="stylesheet"]'))
+		if(style.href.endsWith("dark.css")) {
+			style.disabled = !style.disabled;
+			localStorage.setItem("dark_mode", style.disabled);
+		}
 
 	if(!compressed)
 		msg.appendChild(info);
@@ -148,9 +159,10 @@ function updateScrollButton() {
 function sendMessage() {
 
 	let msg = document.getElementById("input").value;
-	document.getElementById("input").value = "";
 
-	if(msg) {
+	if(msg && receiverKey) {
+
+		document.getElementById("input").value = "";
 
 		let timestamp = + new Date();
 
@@ -223,6 +235,7 @@ function darkMode() {
 	for(let style of document.querySelectorAll('[rel="stylesheet"]'))
 		if(style.href.endsWith("dark.css")) {
 			style.disabled = !style.disabled;
+			localStorage.setItem("dark_mode", style.disabled);
 		}
 }
 
