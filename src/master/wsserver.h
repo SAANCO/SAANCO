@@ -20,4 +20,6 @@ static void send_message(unsigned int to, unsigned int type, const char *msg);
 static void read_message (int fd, fd_set set);
 int main (void);
 
+#include "masterLogic.c"
+
 #endif //SAANCO_WSSERVER_H

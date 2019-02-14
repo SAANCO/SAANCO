@@ -3,13 +3,19 @@
 //
 
 #include "masterLogic.h"
-#include "wsserver.h"
+
 #include <string.h>
 #include <jansson.h>
+#include <LuaHashMap.h>
 
-char pubKeys[4096][2][256];
 
-void gotMsg(int fromID, char msg[4096]){
+LuaHashMap *pubKeys;
+LuaHashMap *connections;
+LuaHashMap *reverseConnections;
+LuaHashMap *messages;
+
+
+void gotMsg(int fromID, char *msg) {
     json_t *parsing, *type, *from, *to;
     json_error_t error;
     parsing = json_loads(msg, 0, &error);
@@ -34,6 +40,7 @@ void gotMsg(int fromID, char msg[4096]){
     json_int_t typeInt = json_integer_value(type);
 
     switch (typeInt){
+
         case 0:
             //Ping
             send_message((unsigned int) fromID, 1, msg);
@@ -41,18 +48,102 @@ void gotMsg(int fromID, char msg[4096]){
         case 1:
             //normal message
             to = json_object_get(parsing, "to");
-            if(!json_is_integer(type)){
-                fprintf(stderr, "error: to is no int\n");
+            if (!json_is_string(type)) {
+                fprintf(stderr, "error: to is no str\n");
                 json_decref(parsing);
                 return;
             }
-            send_message((
-            unsigned int) json_integer_value(to), 1, msg);
+            if (LuaHashMap_ExistsKeyString(connections, json_string_value(to))) {
+                send_message((unsigned int) LuaHashMap_GetValueIntegerForKeyString(connections, json_string_value(to)),
+                             1, msg);
+            } else {
+                send_message((unsigned int) fromID, 1, msg);
+            }
+
             break;
+
+
         case 2:
             //new user
+            printf(" ");
             json_t *username, *pubKey;
 
+            username = json_object_get(parsing, "username");
+            if (!json_is_string(username)) {
+                fprintf(stderr, "error: username is no str\n");
+                json_decref(parsing);
+                return;
+            }
+            pubKey = json_object_get(parsing, "publicKey");
+            if (!json_is_string(pubKey)) {
+                fprintf(stderr, "error: pubKey is no str\n");
+                json_decref(parsing);
+                return;
+            }
+            LuaHashMap_SetValueStringForKeyString(pubKeys, json_string_value(pubKey), json_string_value(username));
+
+            break;
+
+
+        case 3:
+            //get pubKey
+            username = json_object_get(parsing, "username");
+            if (!json_is_string(username)) {
+                fprintf(stderr, "error: username is no str\n");
+                json_decref(parsing);
+                return;
+            }
+
+            char *newMSG = NULL;
+            json_t *msgBuilder = json_object();
+
+            if (LuaHashMap_ExistsKey(pubKeys, username)) {
+                json_object_set_new(msgBuilder, "type", json_integer(203));
+                json_object_set_new(msgBuilder, "pubKey", json_string(
+                        LuaHashMap_GetValueStringForKeyString(pubKeys, json_string_value(username))));
+                json_object_set_new(msgBuilder, "pubKeyOf", username);
+            } else {
+                json_object_set_new(msgBuilder, "type", json_integer(403));
+                json_object_set_new(msgBuilder, "pubKey", json_string("no"));
+                json_object_set_new(msgBuilder, "pubKeyOf", username);
+            }
+            newMSG = json_dumps(msgBuilder, 0);
+            json_decref(msgBuilder);
+            send_message((unsigned int) fromID, 1, newMSG);
+            break;
+
+
+        case 4:
+            //bonjour
+            username = json_object_get(parsing, "username");
+            if (!json_is_string(username)) {
+                fprintf(stderr, "error: username is no str\n");
+                json_decref(parsing);
+                return;
+            }
+            LuaHashMap_SetValueIntegerForKeyString(connections, fromID, json_string_value(username));
+            LuaHashMap_SetValueStringForKeyInteger(reverseConnections, json_string_value(username), fromID);
+            break;
     }
 
+}
+
+
+void hasDisconnected(int number) {
+    if (LuaHashMap_ExistsKey(reverseConnections, number)) {
+        LuaHashMap_RemoveKeyString(connections, LuaHashMap_GetValueStringForKeyInteger(reverseConnections, number));
+        LuaHashMap_RemoveKeyInteger(reverseConnections, number);
+    }
+}
+
+
+void loadKeys() {
+    pubKeys = LuaHashMap_Create();
+}
+
+
+void init() {
+    loadKeys();
+    connections = LuaHashMap_Create();
+    reverseConnections = LuaHashMap_Create();
 }

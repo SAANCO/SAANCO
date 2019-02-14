@@ -123,9 +123,11 @@ void read_message(int fd, fd_set set) {
         printf("\n");
         return;
     }
-
+    if (type == 8) {
+        hasDisconnected(listener);
+    }
     printf ("client: %d, type: %d, len: %d, msg: %s\n", listener, type, size, buf);
-    send_message(listener, 0x01, buf);
+    //send_message(listener, 0x01, buf);
 
 }
 
@@ -157,6 +159,7 @@ int main(void) {
     char *fifo = "/tmp/wspipeout.fifo";
     int fd = 0;
 
+    init();
     if ((fd = open (fifo, O_RDWR | O_NONBLOCK)) < 0)
         exit (1);
     while (1)
