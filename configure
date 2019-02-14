@@ -23,6 +23,7 @@ cd jansson-2.12/
 ./configure
 make
 sudo make install
+cd ..
 
 
 # Install LuaHashMap
@@ -30,7 +31,7 @@ sudo make install
 wget https://bitbucket.org/ewing/luahashmap/get/0c720094c6f0.zip
 mkdir luahashmap
 cd luahashmap
-tar -xzvf 0c720094c6f0.zip
+unzip 0c720094c6f0.zip
 cmake .
 make
 sudo make install
