@@ -97,6 +97,12 @@ void gotMsg(int fromID, char *msg) {
                                      unsigned int) fromID, 1, newResponse);
             }
 
+            //bonjour config done for new user
+            if (!LuaHashMap_ExistsKeyString(connections, json_string_value(username))) {
+                LuaHashMap_SetValueIntegerForKeyString(connections, fromID, json_string_value(username));
+                LuaHashMap_SetValueStringForKeyInteger(reverseConnections, json_string_value(username), fromID);
+            }
+
             break;
 
 
@@ -136,8 +142,10 @@ void gotMsg(int fromID, char *msg) {
                 json_decref(parsing);
                 return;
             }
-            LuaHashMap_SetValueIntegerForKeyString(connections, fromID, json_string_value(username));
-            LuaHashMap_SetValueStringForKeyInteger(reverseConnections, json_string_value(username), fromID);
+            if (!LuaHashMap_ExistsKeyString(connections, json_string_value(username))) {
+                LuaHashMap_SetValueIntegerForKeyString(connections, fromID, json_string_value(username));
+                LuaHashMap_SetValueStringForKeyInteger(reverseConnections, json_string_value(username), fromID);
+            }
             break;
     }
 
