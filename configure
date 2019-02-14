@@ -3,6 +3,7 @@
 echo "Installer script for SAANCO Host with all dependencies.\n"
 echo "Please install (if not already installed) Lua 5.1 + developer headers, cmake and make!\n"
 
+sudo apt install lua5.1 lua5.1-policy-dev openssl libssl-dev cmake make -y
 mkdir tmp
 cd tmp
 
