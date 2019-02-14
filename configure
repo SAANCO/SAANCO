@@ -37,7 +37,9 @@ sudo make install
 cd ..
 
 
+# Delete temporary downloads
 cd ..
+rm -rf tmp
 
 # Compile SAANCO Host
 
@@ -46,6 +48,3 @@ cd build
 cmake ..
 make
 
-
-# Delete temporary downloads
-rm -rf tmp
