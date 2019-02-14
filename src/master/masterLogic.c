@@ -54,9 +54,12 @@ void gotMsg(int fromID, char *msg) {
                 return;
             }
             if (LuaHashMap_ExistsKeyString(connections, json_string_value(to))) {
+                printf("\nnew msg to user  %s sent to %d\n", json_string_value(to),
+                       (int) LuaHashMap_GetValueIntegerForKeyString(connections, json_string_value(to)));
                 send_message((unsigned int) LuaHashMap_GetValueIntegerForKeyString(connections, json_string_value(to)),
                              1, msg);
             } else {
+                printf("\nnew msg to user  %s pinged back, no recipient ( from %d)\n", json_string_value(to), fromID);
                 send_message((unsigned int) fromID, 1, msg);
             }
 
@@ -99,6 +102,7 @@ void gotMsg(int fromID, char *msg) {
 
             //bonjour config done for new user
             if (!LuaHashMap_ExistsKeyString(connections, json_string_value(username))) {
+                printf("\nnew user %s registered at %d\n", json_string_value(username), fromID);
                 LuaHashMap_SetValueIntegerForKeyString(connections, fromID, json_string_value(username));
                 LuaHashMap_SetValueStringForKeyInteger(reverseConnections, json_string_value(username), fromID);
             }
@@ -143,6 +147,7 @@ void gotMsg(int fromID, char *msg) {
                 return;
             }
             if (!LuaHashMap_ExistsKeyString(connections, json_string_value(username))) {
+                printf("\nnew user %s registered at %d\n", json_string_value(username), fromID);
                 LuaHashMap_SetValueIntegerForKeyString(connections, fromID, json_string_value(username));
                 LuaHashMap_SetValueStringForKeyInteger(reverseConnections, json_string_value(username), fromID);
             }
