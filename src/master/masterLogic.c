@@ -80,7 +80,22 @@ void gotMsg(int fromID, char *msg) {
                 json_decref(parsing);
                 return;
             }
-            LuaHashMap_SetValueStringForKeyString(pubKeys, json_string_value(pubKey), json_string_value(username));
+            if (!LuaHashMap_ExistsKey(pubKeys, json_string_value(username)) {
+                LuaHashMap_SetValueStringForKeyString(pubKeys, json_string_value(pubKey), json_string_value(username));
+            } else {
+
+                char *newResponse = NULL;
+                json_t *msgBuilder = json_object();
+                json_object_set_new(msgBuilder, "type", json_integer(502));
+                json_object_set_new(msgBuilder, "pubkeyof", username);
+                json_object_set_new(msgBuilder, "pubkey", json_string(
+                        LuaHashMap_GetValueStringForKeyString(pubKeys, json_string_value(username))));
+                newMSG = json_dumps(msgBuilder, 0);
+                json_decref(msgBuilder);
+
+                send_message((
+                                     unsigned int) fromID, 1, newMsg);
+            }
 
             break;
 
