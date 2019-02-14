@@ -1,8 +1,8 @@
-password = "somepassword123"
-username = "testname";
-rsaKeys = generateRSAKeys(window.password);
+//localStorage.clear();
+
 anonymous = false;
 displayed_messages = 0;
+rsaKeys = {};
 
 let maxDis = 200;
 
@@ -11,6 +11,42 @@ let maxDis = 200;
 */
 window.onload = function() {
 
+	window.username = localStorage.getItem("username");
+	window.rsaKeys.public = localStorage.getItem("pubkey");
+
+	if(window.username) {
+		document.getElementById("username").value = window.username;
+		document.getElementById("username").disabled = true;
+	}
+
+}
+
+function login() {
+
+	let usrname = document.getElementById("username").value;
+	let pssword = document.getElementById("password").value;
+
+	if(!localStorage.getItem("password") || pssword == localStorage.getItem("password")) {
+		if(usrname.length > 0 && pssword.length > 0) {
+			if(!window.username) window.username = usrname;
+			window.password = pssword;
+			loadChat();
+		}
+	} else alert("Wrong password");
+
+}
+
+function loadChat() {
+
+	window.rsaKeys = generateRSAKeys(window.password);
+	localStorage.setItem("pubkey", rsaKeys.public);
+	localStorage.setItem("username", window.username);
+	localStorage.setItem("password", window.password);
+
+	document.getElementById("login").style.display = "none";
+	document.getElementById("chat").style.display = "block";
+	document.getElementById("username_info").innerText = username;
+	
 	let msg = document.getElementById("input").focus();
 
 	connect();

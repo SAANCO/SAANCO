@@ -1,3 +1,5 @@
+messageSaved = 0;
+
 /*
 	Saved a message to the localStorage of the browser
 
@@ -6,13 +8,10 @@
 function saveMessage(protocol) {
 
 	let message = null;
-	let i = 0;
-	while(message = localStorage.getItem("message_" + i) != null)
-		i++;
 
 	generateAESKey(function(key, iv) {
 
-		localStorage.setItem("message_" + i, encryptStorage(protocol, key, iv));
+		localStorage.setItem("message_" + messageSaved++, encryptStorage(protocol, key, iv));
 
 	}, window.password);
 
@@ -27,7 +26,7 @@ function loadMessages() {
 	//localStorage.clear();
 
 	let message = null;
-	for(let i = 0; (message = localStorage.getItem("message_" + i)) != null; i++) {
+	for(messageSaved = 0; (message = localStorage.getItem("message_" + messageSaved)) != null; messageSaved++) {
 
 		const message2 = message;
 
