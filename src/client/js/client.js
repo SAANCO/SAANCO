@@ -142,6 +142,8 @@ function displayMessage(text, byUser, timestamp, anon, italic) {
 
 	msg.appendChild(bubble);
 	document.getElementById("messages").appendChild(msg);
+	
+	window.setTimeout(scrollToBottom, 500);
 
 }
 
@@ -172,7 +174,6 @@ function sendMessage() {
 		msg = parseMessage(msg);
 
 		displayMessage(msg, username, timestamp);
-		scrollToBottom(false);
 
 		sendProtocol(msg, timestamp);
 

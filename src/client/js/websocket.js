@@ -100,6 +100,7 @@ function receiveProtocol(protocol) {
 			json.username = "Echo " + json.username;
 
 		console.log(json.receiverKey == window.rsaKeys.public);
+		console.log(json);
 
 		try {
 
