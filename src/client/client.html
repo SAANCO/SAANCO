@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>SAANCO</title>
+
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+		<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="style/client.css" />
+        <link rel="stylesheet" href="style/dark.css" />
+        <link rel="stylesheet" href="style/rainbow.css" />
+        <link rel="stylesheet" href="style/ugly.css" />
+	
+		<script type="text/javascript" src="https://cdn.rawgit.com/ricmoo/aes-js/e27b99df/index.js"></script>
+
+		<script type="text/javascript" src="./../../lib/scrypt-js/scrypt.js"></script>
+		<script type="text/javascript" src="./../../lib/scrypt-js/thirdparty/buffer.js"></script>
+		<script type="text/javascript" src="./../../lib/scrypt-js/thirdparty/setImmediate.js"></script>
+		<script type="text/javascript" src="./../../lib/scrypt-js/thirdparty/unorm.js"></script>
+
+		<script type="text/javascript" src="./../../lib/rsa-js/cryptico.js"></script>
+
+		<script src="js/random.js"></script>
+		<script src="js/encryption.js"></script>
+		<script src="js/storage.js"></script>
+		<script src="js/websocket.js"></script>
+		<script src="js/client.js"></script>
+    </head>
+	<body>
+
+		<div id=darkmode onclick="darkMode()" class=round_btn></div>
+		<div id=clear onclick="localStorage.clear()" class=round_btn></div>
+		<div id="chat">
+				<div id="bar"></div>
+				<div id="username_info"></div>
+				<div id="receiver_info_0">To:</div>
+				<input id="receiver_info" onblur="changeReceiver()"></input>
+				<div id="messages" onscroll="updateScrollButton()" onmousewheel="window.clearTimeout(window.scrollTimeout)">
+					<div id="scrolldown" onclick="scrollToBottom()"></div>
+				</div>
+				<div class=gradient id="gradient_top"></div>
+				<div class=gradient id="gradient_bottom"></div>
+				<form onSubmit="sendMessage();return false" autocomplete="off">
+					<input id="input"></input>
+					<input id="send" type="submit" value="Send"></input>
+				</form>
+		</div>
+		<form id=login onSubmit="login();return false">
+			<input id="username"></input>
+			<input id="password" type="password"></input>
+			<input id="login_btn" type="submit" value="login"></input>
+		</form>
+
+	</body>
+</html>
