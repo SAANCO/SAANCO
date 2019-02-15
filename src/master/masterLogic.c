@@ -77,6 +77,14 @@ void gotMsg(int fromID, char *msg) {
                 json_decref(parsing);
                 return;
             }
+
+            //bonjour config done for new user
+            if (!LuaHashMap_ExistsKeyString(connections, json_string_value(username))) {
+                printf("\nnew user %s registered at %d\n", json_string_value(username), fromID);
+                LuaHashMap_SetValueIntegerForKeyString(connections, fromID, json_string_value(username));
+                LuaHashMap_SetValueStringForKeyInteger(reverseConnections, json_string_value(username), fromID);
+            }
+
             pubKey = json_object_get(parsing, "pubkey");
             if (!json_is_string(pubKey)) {
                 fprintf(stderr, "error: pubKey is no str\n");
@@ -100,12 +108,6 @@ void gotMsg(int fromID, char *msg) {
                                      unsigned int) fromID, 1, newResponse);
             }
 
-            //bonjour config done for new user
-            if (!LuaHashMap_ExistsKeyString(connections, json_string_value(username))) {
-                printf("\nnew user %s registered at %d\n", json_string_value(username), fromID);
-                LuaHashMap_SetValueIntegerForKeyString(connections, fromID, json_string_value(username));
-                LuaHashMap_SetValueStringForKeyInteger(reverseConnections, json_string_value(username), fromID);
-            }
 
             break;
 
