@@ -86,6 +86,8 @@ function loadChat() {
 	
 	let msg = document.getElementById("input").focus();
 
+	loadMessages(null);
+
 	connect();
 
 	window.setTimeout(scrollToBottom, 1000, true);
