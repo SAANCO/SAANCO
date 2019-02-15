@@ -125,6 +125,7 @@ input {
 	border-radius: 100vw 0 0 100vw;
 
 	background-color: var(--btn-color);
+	color: #000000;
 
 }
 
