@@ -8,6 +8,11 @@ receiverKey = null;
 
 let maxDis = 200;
 
+for(let style of document.querySelectorAll('[rel="stylesheet"]'))
+		if(style.href.endsWith("ugly.css") || style.href.endsWith("rainbow.css")) {
+			style.disabled = true;
+		}
+
 /*
 	Called after the page has loaded
 */
