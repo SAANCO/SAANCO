@@ -313,6 +313,14 @@ input {
 	background-color: var(--btn-hover-color) !important;
 }
 
+#clear {
+	position: absolute;
+	left: 1vw;
+	bottom: 1vw;
+	width: 5vh;
+	height: 4vh;
+}
+
 #darkmode::after {
 	content: "🌙";
 }
