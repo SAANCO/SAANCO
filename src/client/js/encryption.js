@@ -53,8 +53,6 @@ function decryptCBC(msg, key, iv, textLength) {
 */
 function generateAESKey(success, pass) {
 
-	console.log("Generating AES key");
-
 	let password = null, salt = null;
 
 	if(pass) {

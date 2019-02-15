@@ -52,11 +52,17 @@ function sendProtocol(msg, timestamp) {
 		return;
 
 
+	if(window.receiverKey == null) {
+		window.setTimeout(function() {
+			sendProtocol(msg, timestamp);
+		}, 1000);
+	}
+
+
 	generateAESKey(function(key, iv) {
 
 		let enc = encryptCBC(msg, key, iv);
-		let receiverKey = window.rsaKeys.public;
-		let encryptedKey = cryptico.encrypt(keyToString(key, iv), receiverKey).cipher;
+		let encryptedKey = cryptico.encrypt(keyToString(key, iv), window.receiverKey).cipher;
 
 		let protocol = {};
 		protocol.receiver = window.receiver;
@@ -70,6 +76,7 @@ function sendProtocol(msg, timestamp) {
 		protocol.key = encryptedKey;
 		protocol.msg = enc.msg;
 		protocol.type = 1;
+		protocol.receiverKey = window.receiverKey;
 
 		connection.send(JSON.stringify(protocol));
 
@@ -87,14 +94,44 @@ function receiveProtocol(protocol) {
 
 	let json = JSON.parse(protocol);
 
-	let decryptedKey = stringToKey(cryptico.decrypt(json.key, window.rsaKeys.private).plaintext);
-	json.msg = decryptCBC(json.msg, decryptedKey.key, decryptedKey.iv, json.textlength);
+	if(json.type == 1) {
 
+		if(json.username == window.username)
+			json.username = "Echo " + json.username;
 
-	if(json.username == window.username)
-		json.username = "Echo " + json.username;
+		console.log(json.receiverKey == window.rsaKeys.public);
 
-	saveMessage(json);
-	displayMessage(json.msg, json.username, json.timestamp, json.anon);
+		try {
+
+			let decryptedKey = stringToKey(cryptico.decrypt(json.key, window.rsaKeys.private).plaintext);
+			json.msg = decryptCBC(json.msg, decryptedKey.key, decryptedKey.iv, json.textlength);
+
+			saveMessage(json);
+			displayMessage(json.msg, json.username, json.timestamp, json.anon);
+
+		} catch (e) {
+			displayMessage("Could not display message", json.username, json.timestamp, false, true);
+		}
+
+	} else if(json.type == 203) {
+		window.receiverKey = json.pubKey;
+		document.getElementById("receiver_info").style.color = null;
+	} else if(json.type == 403) {
+		window.receiverKey = null;
+		document.getElementById("receiver_info").style.color = "red";
+	}
+
+}
+
+function queryKey(username) {
+
+	if(connection == null)
+		return;
+
+	let query = {};
+	query.type = 3;
+	query.username = username;
+
+	connection.send(JSON.stringify(query));
 
 }
