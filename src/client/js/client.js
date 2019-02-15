@@ -1,5 +1,6 @@
 //localStorage.clear();
 
+
 anonymous = false;
 displayed_messages = 0;
 rsaKeys = {};
@@ -11,6 +12,12 @@ let maxDis = 200;
 	Called after the page has loaded
 */
 window.onload = function() {
+
+	for(let style of document.querySelectorAll('[rel="stylesheet"]'))
+		if(style.href.endsWith("dark.css")) {
+			style.disabled = localStorage.getItem("dark_mode") == "true";
+			localStorage.setItem("dark_mode", style.disabled);
+		}
 
 	window.username = localStorage.getItem("username");
 	window.rsaKeys.public = localStorage.getItem("pubkey");
@@ -126,11 +133,7 @@ function displayMessage(text, byUser, timestamp, anon, italic) {
 	for(let node of parseRawText(text)) {
 		if(italic) node.className += " italic";
 		bubble.appendChild(node);
-	}for(let style of document.querySelectorAll('[rel="stylesheet"]'))
-		if(style.href.endsWith("dark.css")) {
-			style.disabled = !style.disabled;
-			localStorage.setItem("dark_mode", style.disabled);
-		}
+	}
 
 	if(!compressed)
 		msg.appendChild(info);

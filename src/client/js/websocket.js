@@ -62,8 +62,7 @@ function sendProtocol(msg, timestamp) {
 	generateAESKey(function(key, iv) {
 
 		let enc = encryptCBC(msg, key, iv);
-		let receiverKey = window.receiverKey;
-		let encryptedKey = cryptico.encrypt(keyToString(key, iv), receiverKey).cipher;
+		let encryptedKey = cryptico.encrypt(keyToString(key, iv), window.receiverKey).cipher;
 
 		let protocol = {};
 		protocol.receiver = window.receiver;
@@ -77,6 +76,7 @@ function sendProtocol(msg, timestamp) {
 		protocol.key = encryptedKey;
 		protocol.msg = enc.msg;
 		protocol.type = 1;
+		protocol.receiverKey = window.receiverKey;
 
 		connection.send(JSON.stringify(protocol));
 
@@ -94,12 +94,12 @@ function receiveProtocol(protocol) {
 
 	let json = JSON.parse(protocol);
 
-	console.log(json);
-
 	if(json.type == 1) {
 
 		if(json.username == window.username)
 			json.username = "Echo " + json.username;
+
+		console.log(json.receiverKey == window.rsaKeys.public);
 
 		try {
 
