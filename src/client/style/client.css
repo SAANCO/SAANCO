@@ -125,6 +125,7 @@ input {
 	border-radius: 100vw 0 0 100vw;
 
 	background-color: var(--btn-color);
+	color: #000000;
 
 }
 
@@ -311,6 +312,14 @@ input {
 
 .round_btn:hover {
 	background-color: var(--btn-hover-color) !important;
+}
+
+#clear {
+	position: absolute;
+	left: 1vw;
+	bottom: 1vw;
+	width: 5vh;
+	height: 4vh;
 }
 
 #darkmode::after {

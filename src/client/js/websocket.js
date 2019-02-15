@@ -100,6 +100,7 @@ function receiveProtocol(protocol) {
 			json.username = "Echo " + json.username;
 
 		console.log(json.receiverKey == window.rsaKeys.public);
+		console.log(json);
 
 		try {
 
@@ -125,8 +126,10 @@ function receiveProtocol(protocol) {
 
 function queryKey(username) {
 
-	if(connection == null)
+	if(connection == null || !window.isOnline) {
+		window.setTimeout(queryKey, 500, username);
 		return;
+	}
 
 	let query = {};
 	query.type = 3;

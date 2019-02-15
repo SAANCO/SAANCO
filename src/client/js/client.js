@@ -8,6 +8,11 @@ receiverKey = null;
 
 let maxDis = 200;
 
+for(let style of document.querySelectorAll('[rel="stylesheet"]'))
+		if(style.href.endsWith("ugly.css") || style.href.endsWith("rainbow.css")) {
+			style.disabled = true;
+		}
+
 /*
 	Called after the page has loaded
 */
@@ -86,6 +91,8 @@ function loadChat() {
 	
 	let msg = document.getElementById("input").focus();
 
+	loadMessages(null);
+
 	connect();
 
 	window.setTimeout(scrollToBottom, 1000, true);
@@ -142,6 +149,8 @@ function displayMessage(text, byUser, timestamp, anon, italic) {
 
 	msg.appendChild(bubble);
 	document.getElementById("messages").appendChild(msg);
+	
+	window.setTimeout(scrollToBottom, 500);
 
 }
 
@@ -172,7 +181,6 @@ function sendMessage() {
 		msg = parseMessage(msg);
 
 		displayMessage(msg, username, timestamp);
-		scrollToBottom(false);
 
 		sendProtocol(msg, timestamp);
 
