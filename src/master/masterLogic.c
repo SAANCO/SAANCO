@@ -159,6 +159,8 @@ void gotMsg(int fromID, char *msg) {
 
 void hasDisconnected(int number) {
     if (LuaHashMap_ExistsKeyInteger(reverseConnections, number)) {
+        printf("\n %s has diconnected (from %d)\n", LuaHashMap_GetValueStringForKeyInteger(reverseConnections, number),
+               number);
         LuaHashMap_RemoveKeyString(connections, LuaHashMap_GetValueStringForKeyInteger(reverseConnections, number));
         LuaHashMap_RemoveKeyInteger(reverseConnections, number);
     }
